@@ -1,0 +1,73 @@
+{
+  "repo": "silver-ui-editor-line",
+  "language": "Lua",
+  "category": "Frontend apps",
+  "goal": "Develop a Lua command-oriented project for editor scenarios with log and snapshot fixtures, replay consistency checks, and bounded memory input sets.",
+  "review_model": {
+    "terms": [
+      "view drift",
+      "state pressure",
+      "layout risk",
+      "interaction cost"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "view drift",
+      "signal": 52,
+      "slack": 52,
+      "drag": 26,
+      "confidence": 92,
+      "score": 170,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "state pressure",
+      "signal": 70,
+      "slack": 28,
+      "drag": 27,
+      "confidence": 56,
+      "score": 143,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "layout risk",
+      "signal": 59,
+      "slack": 31,
+      "drag": 10,
+      "confidence": 47,
+      "score": 166,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "interaction cost",
+      "signal": 86,
+      "slack": 44,
+      "drag": 12,
+      "confidence": 83,
+      "score": 263,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "view drift",
+      "signal": 66,
+      "slack": 23,
+      "drag": 32,
+      "confidence": 54,
+      "score": 113,
+      "lane": "watch"
+    }
+  ]
+}

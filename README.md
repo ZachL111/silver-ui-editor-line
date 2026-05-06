@@ -1,68 +1,40 @@
 # silver-ui-editor-line
 
-`silver-ui-editor-line` is a Lua project for Frontend apps. It turns develop a Lua command-oriented project for editor scenarios with log and snapshot fixtures, replay consistency checks, and bounded memory input sets into a small local model with readable fixtures and a direct verification command.
+`silver-ui-editor-line` is a Lua project in frontend apps. Its focus is to develop a Lua command-oriented project for editor scenarios with log and snapshot fixtures, replay consistency checks, and bounded memory input sets.
 
-## Reading Silver UI Editor Line
+## Use Case
 
-Start with the README, then open `metadata/project.json` to check the constants behind the examples. After that, `fixtures/cases.csv` shows the compact path and `examples/extended_cases.csv` gives a wider look at the same rule.
+The point is to make a small domain rule concrete enough that a reader can change it and immediately see what broke.
 
-## Purpose
+## Silver UI Editor Line Review Notes
 
-I use this kind of project to make a rule visible before adding more machinery around it. The important part here is not the size of the codebase. It is that the input signals, scoring rule, fixture data, and expected output can all be checked in one sitting.
+`recovery` and `stale` are the cases worth reading first. They show the optimistic and cautious ends of the fixture.
 
-## Fixture Notes
+## Highlights
 
-`degraded` is the first example I would inspect because it lands on the `review` path with a score of -40. The broader file also keeps `degraded` at -40 and `surge` at 169, which gives the model a useful low-to-high spread.
+- `fixtures/domain_review.csv` adds cases for view drift and state pressure.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/silver-ui-editor-walkthrough.md` walks through the case spread.
+- The Lua code includes a review path for `interaction cost` and `view drift`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Design Sketch
+## Code Layout
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The Lua project keeps the module shape simple and validates behavior through a direct script.
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `view drift`, `state pressure`, `layout risk`, and `interaction cost`.
 
-## What It Does
+The Lua code keeps the review rule close to the tests.
 
-- Models view models with deterministic scoring and explicit review decisions.
-- Uses fixture data to keep interaction state changes visible in code review.
-- Includes extended examples for layout checks, including `surge` and `degraded`.
-- Documents fixture data tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-
-## Usage
+## Run The Check
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Regression Path
 
-## Verification
+The verifier is intentionally local. It should fail if the fixture score math, lane assignment, or language-specific test drifts.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Future Work
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Files Worth Reading
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Next Directions
-
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add one more frontend apps fixture that focuses on a malformed or borderline input.
-
-## Limits
-
-The scoring model is simple by design. More domain-specific behavior should be added through explicit adapters or extra fixture classes rather than hidden constants.
-
-## Setup
-
-Use a normal shell with Lua available on `PATH`. The verifier is written as a PowerShell script because the portfolio was assembled on Windows.
+The fixture set is small enough to audit by hand. The next useful expansion is malformed input coverage, not extra surface area.
