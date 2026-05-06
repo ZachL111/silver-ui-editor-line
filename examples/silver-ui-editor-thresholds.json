@@ -1,0 +1,17 @@
+{
+  "repo": "silver-ui-editor-line",
+  "thresholds": {
+    "signal": 2,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 3,
+    "ship": 170,
+    "watch": 117
+  },
+  "terms": [
+    "view drift",
+    "state pressure",
+    "layout risk",
+    "interaction cost"
+  ]
+}

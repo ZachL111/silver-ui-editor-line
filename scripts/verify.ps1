@@ -63,3 +63,9 @@ lua tests/test_policy.lua
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-silver-ui-editor-detail.ps1
 
 lua tests/test_domain_review.lua
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-silver-ui-editor-properties.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-silver-ui-editor-golden.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
